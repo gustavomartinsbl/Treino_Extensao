@@ -72,6 +72,118 @@ dados_bd1$F_IDADE <- cut(
 # TADA: total de acidentes cuja causa foi o uso de drogas ou álcool
 # TACO: total de acidentes cuja causa foi outros
 
+municipios <- unique(dados_bd1$MUNICIPIO)
+
+BANCO1_RJ <- data.frame(
+  ANO = 2025,
+  NIVEL = "MUNICIPIO",
+  CODIGO = municipios
+)
+
+BANCO1_RJ$TV <- sapply(municipios, function(x)
+  sum(dados_bd1$MUNICIPIO == x & !is.na(dados_bd1$VEICULO_CAUSADOR))
+)
+
+BANCO1_RJ$TC <- sapply(municipios, function(x)
+  sum(dados_bd1$MUNICIPIO == x & dados_bd1$VEICULO_CAUSADOR == "Carro", na.rm = TRUE)
+)
+
+BANCO1_RJ$TM <- sapply(municipios, function(x)
+  sum(dados_bd1$MUNICIPIO == x & dados_bd1$VEICULO_CAUSADOR == "Moto", na.rm = TRUE)
+)
+
+BANCO1_RJ$TVCF <- sapply(municipios, function(x)
+  sum(dados_bd1$MUNICIPIO == x &
+        dados_bd1$SEXO_CONDUTOR_CAUSADOR == "Feminino", na.rm = TRUE)
+)
+
+BANCO1_RJ$TVCM <- sapply(municipios, function(x)
+  sum(dados_bd1$MUNICIPIO == x &
+        dados_bd1$SEXO_CONDUTOR_CAUSADOR == "Masculino", na.rm = TRUE)
+)
+
+BANCO1_RJ$TC_22_34 <- sapply(municipios, function(x)
+  sum(dados_bd1$MUNICIPIO == x &
+        dados_bd1$F_IDADE == "22 a 34", na.rm = TRUE)
+)
+
+BANCO1_RJ$TC_35_45 <- sapply(municipios, function(x)
+  sum(dados_bd1$MUNICIPIO == x &
+        dados_bd1$F_IDADE == "35 a 45", na.rm = TRUE)
+)
+
+BANCO1_RJ$NMF <- sapply(municipios, function(x)
+  mean(dados_bd1$NUM_FERIDOS_GRAVES[dados_bd1$MUNICIPIO == x], na.rm = TRUE)
+)
+
+BANCO1_RJ$DPF <- sapply(municipios, function(x)
+  sd(dados_bd1$NUM_FERIDOS_GRAVES[dados_bd1$MUNICIPIO == x], na.rm = TRUE)
+)
+
+BANCO1_RJ$F_P25 <- sapply(municipios, function(x)
+  quantile(dados_bd1$NUM_FERIDOS_GRAVES[dados_bd1$MUNICIPIO == x],
+           probs = 0.25, na.rm = TRUE)
+)
+
+BANCO1_RJ$F_P50 <- sapply(municipios, function(x)
+  quantile(dados_bd1$NUM_FERIDOS_GRAVES[dados_bd1$MUNICIPIO == x],
+           probs = 0.50, na.rm = TRUE)
+)
+
+BANCO1_RJ$F_P75 <- sapply(municipios, function(x)
+  quantile(dados_bd1$NUM_FERIDOS_GRAVES[dados_bd1$MUNICIPIO == x],
+           probs = 0.75, na.rm = TRUE)
+)
+
+BANCO1_RJ$TAFA <- sapply(municipios, function(x)
+  sum(dados_bd1$MUNICIPIO == x &
+        dados_bd1$CAUSA_ACIDENTE == "falta de atencao", na.rm = TRUE)
+)
+
+BANCO1_RJ$TADS <- sapply(municipios, function(x)
+  sum(dados_bd1$MUNICIPIO == x &
+        dados_bd1$CAUSA_ACIDENTE == "desrespeito a sinalizacao", na.rm = TRUE)
+)
+
+BANCO1_RJ$TADA <- sapply(municipios, function(x)
+  sum(dados_bd1$MUNICIPIO == x &
+        dados_bd1$CAUSA_ACIDENTE == "alcool ou drogas", na.rm = TRUE)
+)
+
+BANCO1_RJ$TACO <- sapply(municipios, function(x)
+  sum(dados_bd1$MUNICIPIO == x &
+        dados_bd1$CAUSA_ACIDENTE == "outros", na.rm = TRUE)
+)
+
+# Colocar a UF 33 como primeira linha
+BANCO1_RJ <- rbind(
+  data.frame(
+    ANO = 2025,
+    NIVEL = "UF",
+    CODIGO = 33,
+    TV = sum(!is.na(dados_bd1$VEICULO_CAUSADOR)),
+    TC = sum(dados_bd1$VEICULO_CAUSADOR == "Carro", na.rm = TRUE),
+    TM = sum(dados_bd1$VEICULO_CAUSADOR == "Moto", na.rm = TRUE),
+    TVCF = sum(dados_bd1$SEXO_CONDUTOR_CAUSADOR == "Feminino", na.rm = TRUE),
+    TVCM = sum(dados_bd1$SEXO_CONDUTOR_CAUSADOR == "Masculino", na.rm = TRUE),
+    TC_22_34 = sum(dados_bd1$F_IDADE == "22 a 34", na.rm = TRUE),
+    TC_35_45 = sum(dados_bd1$F_IDADE == "35 a 45", na.rm = TRUE),
+    NMF = mean(dados_bd1$NUM_FERIDOS_GRAVES, na.rm = TRUE),
+    DPF = sd(dados_bd1$NUM_FERIDOS_GRAVES, na.rm = TRUE),
+    F_P25 = quantile(dados_bd1$NUM_FERIDOS_GRAVES, 0.25, na.rm = TRUE),
+    F_P50 = quantile(dados_bd1$NUM_FERIDOS_GRAVES, 0.50, na.rm = TRUE),
+    F_P75 = quantile(dados_bd1$NUM_FERIDOS_GRAVES, 0.75, na.rm = TRUE),
+    TAFA = sum(dados_bd1$CAUSA_ACIDENTE == "falta de atencao", na.rm = TRUE),
+    TADS = sum(dados_bd1$CAUSA_ACIDENTE == "desrespeito a sinalizacao", na.rm = TRUE),
+    TADA = sum(dados_bd1$CAUSA_ACIDENTE == "alcool ou drogas", na.rm = TRUE),
+    TACO = sum(dados_bd1$CAUSA_ACIDENTE == "outros", na.rm = TRUE)
+  ),
+  BANCO1_RJ
+)
+
+# Visualizar o banco criado
+BANCO1_RJ
+
 # Ao terminar a Tarefa 3 commit com a mensagem " script - tarefa 1 a 3" e envie para o repositório Treino_Extensao
 
 
