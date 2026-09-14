@@ -242,6 +242,37 @@ table(dados_bd2$F_IDADE, useNA = "ifany")
 # criar a variável PAM (somente quando TIPO_VEICULO = "Carro"), de acordo com IDADE_PROPRIETARIO e SEXO_PROPRIETARIO, com as seguintes categorias:
 # PAM = "PIC", se VALOR_VEICULO < VALOR_P10; "AIC", se VALOR_P10 <= VALOR_VEICULO <= VALOR_P90; "GIC", se VALOR_VEICULO > VALOR_P90
 
+tabela_pam <- read.csv("Tabela_PAM.csv", header = TRUE, sep = ";")
+str(tabela_pam)
+head(tabela_pam)
+
+dados_bd2 <- merge(
+  dados_bd2,
+  tabela_pam,
+  by = c("IDADE_PROPRIETARIO", "SEXO_PROPRIETARIO"),
+  all.x = TRUE
+)
+
+dados_bd2$PAM <- NA
+
+dados_bd2$PAM[
+  dados_bd2$TIPO_VEICULO == "Carro" &
+    dados_bd2$VALOR_VEICULO < dados_bd2$VALOR_P10
+] <- "PIC"
+
+dados_bd2$PAM[
+  dados_bd2$TIPO_VEICULO == "Carro" &
+    dados_bd2$VALOR_VEICULO >= dados_bd2$VALOR_P10 &
+    dados_bd2$VALOR_VEICULO <= dados_bd2$VALOR_P90
+] <- "AIC"
+
+dados_bd2$PAM[
+  dados_bd2$TIPO_VEICULO == "Carro" &
+    dados_bd2$VALOR_VEICULO > dados_bd2$VALOR_P90
+] <- "GIC"
+
+table(dados_bd2$PAM, useNA = "ifany")
+
 # Ao terminar a Tarefa 3 commit com a mensagem " script - tarefa 1 a 3" e envie para o repositório Treino_Extensao
 
 
