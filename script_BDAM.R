@@ -522,6 +522,13 @@ head(BANCO2_RJ)
 
 # Tarefa 5: Exportar o banco de dados BANCO2_RJ com o nome BANCO2_RJ.csv
 
+write.csv(
+  BANCO2_RJ,
+  "BANCO2_RJ.csv",
+  row.names = FALSE
+)
+head(BANCO2_RJ)
+
 # Ao terminar a Tarefa 5 commit com a mensagem "dados e script - Etapa 2" e envie para o repositório Treino_Extensao
 
 
