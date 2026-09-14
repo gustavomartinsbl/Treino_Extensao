@@ -299,6 +299,224 @@ table(dados_bd2$PAM, useNA = "ifany")
 # TAIC: total de compradores com perfil AIC
 # TGIC: total de compradores com perfil GIC
 
+# Total de veiculos vendidos
+TVV <- aggregate(
+  TIPO_VEICULO ~ MUNICIPIO,
+  data = dados_bd2,
+  FUN = length
+)
+
+names(TVV)[2] <- "TVV"
+
+
+# Total de carros vendidos
+TCV <- aggregate(
+  I(TIPO_VEICULO == "Carro") ~ MUNICIPIO,
+  data = dados_bd2,
+  FUN = sum
+)
+
+names(TCV)[2] <- "TCV"
+
+
+# Total de motos vendidas
+TMV <- aggregate(
+  I(TIPO_VEICULO == "Moto") ~ MUNICIPIO,
+  data = dados_bd2,
+  FUN = sum
+)
+
+names(TMV)[2] <- "TMV"
+
+
+# Total de veiculos vendidos para mulher
+TVVF <- aggregate(
+  I(SEXO_PROPRIETARIO == "Feminino") ~ MUNICIPIO,
+  data = dados_bd2,
+  FUN = sum
+)
+
+names(TVVF)[2] <- "TVVF"
+
+
+# Total de veiculos vendidos para homem
+TVVM <- aggregate(
+  I(SEXO_PROPRIETARIO == "Masculino") ~ MUNICIPIO,
+  data = dados_bd2,
+  FUN = sum
+)
+
+names(TVVM)[2] <- "TVVM"
+
+
+# Total de veiculos vendidos para pessoas de 22 a 34 anos
+TVC_22_34 <- aggregate(
+  I(F_IDADE == "22 a 34") ~ MUNICIPIO,
+  data = dados_bd2,
+  FUN = sum
+)
+
+names(TVC_22_34)[2] <- "TVC_22_34"
+
+
+# Total de veiculos vendidos para pessoas de 35 a 45 anos
+TVC_35_45 <- aggregate(
+  I(F_IDADE == "35 a 45") ~ MUNICIPIO,
+  data = dados_bd2,
+  FUN = sum
+)
+
+names(TVC_35_45)[2] <- "TVC_35_45"
+
+
+# Valor medio dos veiculos vendidos
+VMV <- aggregate(
+  VALOR_VEICULO ~ MUNICIPIO,
+  data = dados_bd2,
+  FUN = function(x) mean(x, na.rm = TRUE)
+)
+
+names(VMV)[2] <- "VMV"
+
+
+# Desvio-padrao do valor dos veiculos vendidos
+DPV <- aggregate(
+  VALOR_VEICULO ~ MUNICIPIO,
+  data = dados_bd2,
+  FUN = function(x) sd(x, na.rm = TRUE)
+)
+
+names(DPV)[2] <- "DPV"
+
+
+# Percentil 25
+V_P25 <- aggregate(
+  VALOR_VEICULO ~ MUNICIPIO,
+  data = dados_bd2,
+  FUN = function(x) quantile(x, 0.25, na.rm = TRUE)
+)
+
+names(V_P25)[2] <- "V_P25"
+
+
+# Percentil 50
+V_P50 <- aggregate(
+  VALOR_VEICULO ~ MUNICIPIO,
+  data = dados_bd2,
+  FUN = function(x) quantile(x, 0.50, na.rm = TRUE)
+)
+
+names(V_P50)[2] <- "V_P50"
+
+
+# Percentil 75
+V_P75 <- aggregate(
+  VALOR_VEICULO ~ MUNICIPIO,
+  data = dados_bd2,
+  FUN = function(x) quantile(x, 0.75, na.rm = TRUE)
+)
+
+names(V_P75)[2] <- "V_P75"
+
+
+# Total de compradores com perfil PIC
+TPIC <- aggregate(
+  I(PAM == "PIC") ~ MUNICIPIO,
+  data = dados_bd2,
+  FUN = sum
+)
+
+names(TPIC)[2] <- "TPIC"
+
+
+# Total de compradores com perfil AIC
+TAIC <- aggregate(
+  I(PAM == "AIC") ~ MUNICIPIO,
+  data = dados_bd2,
+  FUN = sum
+)
+
+names(TAIC)[2] <- "TAIC"
+
+
+# Total de compradores com perfil GIC
+TGIC <- aggregate(
+  I(PAM == "GIC") ~ MUNICIPIO,
+  data = dados_bd2,
+  FUN = sum
+)
+
+names(TGIC)[2] <- "TGIC"
+
+BANCO2_RJ_MUN <- merge(TVV, TCV, by = "MUNICIPIO")
+BANCO2_RJ_MUN <- merge(BANCO2_RJ_MUN, TMV, by = "MUNICIPIO")
+BANCO2_RJ_MUN <- merge(BANCO2_RJ_MUN, TVVF, by = "MUNICIPIO")
+BANCO2_RJ_MUN <- merge(BANCO2_RJ_MUN, TVVM, by = "MUNICIPIO")
+BANCO2_RJ_MUN <- merge(BANCO2_RJ_MUN, TVC_22_34, by = "MUNICIPIO")
+BANCO2_RJ_MUN <- merge(BANCO2_RJ_MUN, TVC_35_45, by = "MUNICIPIO")
+BANCO2_RJ_MUN <- merge(BANCO2_RJ_MUN, VMV, by = "MUNICIPIO")
+BANCO2_RJ_MUN <- merge(BANCO2_RJ_MUN, DPV, by = "MUNICIPIO")
+BANCO2_RJ_MUN <- merge(BANCO2_RJ_MUN, V_P25, by = "MUNICIPIO")
+BANCO2_RJ_MUN <- merge(BANCO2_RJ_MUN, V_P50, by = "MUNICIPIO")
+BANCO2_RJ_MUN <- merge(BANCO2_RJ_MUN, V_P75, by = "MUNICIPIO")
+BANCO2_RJ_MUN <- merge(BANCO2_RJ_MUN, TPIC, by = "MUNICIPIO")
+BANCO2_RJ_MUN <- merge(BANCO2_RJ_MUN, TAIC, by = "MUNICIPIO")
+BANCO2_RJ_MUN <- merge(BANCO2_RJ_MUN, TGIC, by = "MUNICIPIO")
+
+BANCO2_RJ_MUN$ANO <- 2025
+BANCO2_RJ_MUN$NIVEL <- "MUNICIPIO"
+
+names(BANCO2_RJ_MUN)[names(BANCO2_RJ_MUN) == "MUNICIPIO"] <- "CODIGO"
+
+BANCO2_RJ_MUN <- BANCO2_RJ_MUN[, c(
+  "ANO",
+  "NIVEL",
+  "CODIGO",
+  "TVV",
+  "TCV",
+  "TMV",
+  "TVVF",
+  "TVVM",
+  "TVC_22_34",
+  "TVC_35_45",
+  "VMV",
+  "DPV",
+  "V_P25",
+  "V_P50",
+  "V_P75",
+  "TPIC",
+  "TAIC",
+  "TGIC"
+)]
+
+BANCO2_RJ_UF <- data.frame(
+  ANO = 2025,
+  NIVEL = "UF",
+  CODIGO = 33,
+  TVV = sum(!is.na(dados_bd2$TIPO_VEICULO)),
+  TCV = sum(dados_bd2$TIPO_VEICULO == "Carro", na.rm = TRUE),
+  TMV = sum(dados_bd2$TIPO_VEICULO == "Moto", na.rm = TRUE),
+  TVVF = sum(dados_bd2$SEXO_PROPRIETARIO == "Feminino", na.rm = TRUE),
+  TVVM = sum(dados_bd2$SEXO_PROPRIETARIO == "Masculino", na.rm = TRUE),
+  TVC_22_34 = sum(dados_bd2$F_IDADE == "22 a 34", na.rm = TRUE),
+  TVC_35_45 = sum(dados_bd2$F_IDADE == "35 a 45", na.rm = TRUE),
+  VMV = mean(dados_bd2$VALOR_VEICULO, na.rm = TRUE),
+  DPV = sd(dados_bd2$VALOR_VEICULO, na.rm = TRUE),
+  V_P25 = quantile(dados_bd2$VALOR_VEICULO, 0.25, na.rm = TRUE),
+  V_P50 = quantile(dados_bd2$VALOR_VEICULO, 0.50, na.rm = TRUE),
+  V_P75 = quantile(dados_bd2$VALOR_VEICULO, 0.75, na.rm = TRUE),
+  TPIC = sum(dados_bd2$PAM == "PIC", na.rm = TRUE),
+  TAIC = sum(dados_bd2$PAM == "AIC", na.rm = TRUE),
+  TGIC = sum(dados_bd2$PAM == "GIC", na.rm = TRUE)
+)
+
+BANCO2_RJ <- rbind(
+  BANCO2_RJ_UF,
+  BANCO2_RJ_MUN
+)
+
+head(BANCO2_RJ)
+
 # Ao terminar a Tarefa 4 commit com a mensagem " script - tarefa 1 a 4" e envie para o repositório Treino_Extensao
 
 
