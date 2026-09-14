@@ -201,6 +201,12 @@ write.csv(BANCO1_RJ, "BANCO1_RJ.csv", row.names = FALSE)
 # Tarefa 1: Leitura do banco de dados banco 2 = SINASC.csv com o nome de dados_bd2
 # Ler o arquivo, verificar estrutura dos dados e dar uma olhada nos dados
 
+dados_bd2 <- read.csv("banco 2 SINASC.csv", header= TRUE, sep=";")
+
+str(dados_bd2)
+
+head(dados_bd2)
+
 # Ao terminar a Tarefa 1 commit com a mensagem " script - tarefa 1" e envie para o repositório Treino_Extensao
 
 
