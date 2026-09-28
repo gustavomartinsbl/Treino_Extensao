@@ -540,8 +540,8 @@ head(BANCO2_RJ)
 # Tarefa 1: Leitura do banco de dados banco 3 = SIDRA.csv com o nome de dados_bd3
 # Ler o arquivo, verificar estrutura dos dados e dar uma olhada nos dados
 
-# Ao terminar a Tarefa 1 commit com a mensagem " script - tarefa 1" e envie para o repositório Treino_Extensao
 
+# Ao terminar a Tarefa 1 commit com a mensagem " script - tarefa 1" e envie para o repositório Treino_Extensao
 
 # Tarefa 2: Manipulação dos dados
 # Criar a variável MUNICIPIOS = MUNICIPIO em dados_bd3, sendo que agora com 6 dígitos (em vez de 7 dígitos), desprezando o último dígito verificador
