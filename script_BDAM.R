@@ -659,6 +659,40 @@ dados_bd4[, c("MUNICIPIO", "MUNICIPIOS")]
 # QRU: qualidade das rodovias urbanas
 # QRR: qualidade das rodovias rurais
 
+BANCO4_RJ = data.frame(
+  ANO = 2025,
+  NIVEL = NA,
+  CODIGO = NA,
+  QR_CA = dados_bd4$QUALIDADE_RODOVIAS_2020,
+  QRU = dados_bd4$QUALIDADE_URBANA_2025,
+  QRR = dados_bd4$QUALIDADE_RURAL_2025
+)
+
+BANCO4_RJ$NIVEL[1] = "UF"
+
+BANCO4_RJ$NIVEL[2:nrow(BANCO4_RJ)] = "MUNICIPIO"
+
+BANCO4_RJ$CODIGO[1] = 33
+
+BANCO4_RJ$CODIGO[2:nrow(BANCO4_RJ)] =
+  dados_bd4$MUNICIPIOS[2:nrow(dados_bd4)]
+
+BANCO4_RJ = BANCO4_RJ[, c(
+  "ANO",
+  "NIVEL",
+  "CODIGO",
+  "QR_CA",
+  "QRU",
+  "QRR"
+)]
+
+BANCO4_RJ
+
+str(BANCO4_RJ)
+
+dim(BANCO4_RJ)
+
+BANCO4_RJ[1, ]
 
 # Ao terminar a Tarefa 3 commit com a mensagem " script - tarefa 1 a 3" e envie para o repositório Treino_Extensao
 
