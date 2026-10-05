@@ -611,6 +611,25 @@ write.csv(
 # códigos dos municípios - 2010.csv" com os códigos do IBGE para os municípios do Brasil
 # Ler os arquivos, verificar estruturas dos dados e dar uma olhada nos dados
 
+dados_bd4 = read.csv(
+  "banco 4 ATLAS.csv",
+  sep = ";",
+  fileEncoding = "latin1",
+  stringsAsFactors = FALSE
+)
+
+codigos_IBGE_2010 = read.csv(
+  "códigos dos municípios - 2010.csv",
+  sep = ";",
+  fileEncoding = "UTF-8",
+  stringsAsFactors = FALSE
+)
+
+str(dados_bd4)
+str(codigos_IBGE_2010)
+head(dados_bd4)
+head(codigos_IBGE_2010)
+
 # Ao terminar a Tarefa 1 commit com a mensagem " script - tarefa 1" e envie para o repositório Treino_Extensao
 
 
