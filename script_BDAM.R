@@ -637,6 +637,16 @@ head(codigos_IBGE_2010)
 # Criar uma nova variável em dados_bd4 MUNICIPIOS atribuindo os códigos dos municípios, de forma a ficar
 # coerente com os nomes dos municipios e códigos IBGE
 
+dados_bd4$MUNICIPIOS =
+  codigos_IBGE_2010$CODMUNRES[
+    match(
+      gsub(" \\(RJ\\)", "", dados_bd4$MUNICIPIO),
+      codigos_IBGE_2010$município
+    )
+  ]
+
+dados_bd4[, c("MUNICIPIO", "MUNICIPIOS")]
+
 # Ao terminar a Tarefa 2 commit com a mensagem " script - tarefa 1 a 2" e envie para o repositório Treino_Extensao
 
 
